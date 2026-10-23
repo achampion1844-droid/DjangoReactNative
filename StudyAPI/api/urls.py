@@ -14,3 +14,5 @@ urlpatterns = [
     path('Assignment/', ListAssignmentView.as_view(), name='ListAssignmentView'),
     path('Assignment/<int:pk>/', AssignmentView.as_view(), name='AssignmentView'),
 ]
+
+'hi'
