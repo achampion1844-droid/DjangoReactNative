@@ -16,10 +16,11 @@ class UserSerializerd(serializers.ModelSerializer):
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subject
-        fields = ['name', 'description', 'created_at']
+        fields = ['name', 'description', 'created_at', 'id']
 
 
 class AssignmentSerializer(serializers.ModelSerializer):
+    # subjects = SubjectSerializer(many=True, read_only=True)
     class Meta:
         model = Assignment
         fields = [
@@ -29,7 +30,8 @@ class AssignmentSerializer(serializers.ModelSerializer):
             'assignment_name','date_added', 
             'date_started', 
             'remaining_study_sessions', 
-            'subject', 
+            'subjects',
+            'subject',
             'icon', 
             'is_Completed'
         ]

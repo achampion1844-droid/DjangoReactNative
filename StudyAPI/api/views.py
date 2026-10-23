@@ -23,8 +23,8 @@ class AssignmentView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = AssignmentSerializer
 
 class ListAssignmentView(generics.ListCreateAPIView):
-    queryset = Subject.objects.all()
-    serializer_class = SubjectSerializer
+    queryset = Assignment.objects.all()
+    serializer_class = AssignmentSerializer
 
 
 class Subject_Info_TypeView(generics.RetrieveUpdateDestroyAPIView):
@@ -32,5 +32,5 @@ class Subject_Info_TypeView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = Subject_Info_TypeSerializer
 
 class ListSubject_Info_TypeView(generics.ListCreateAPIView):
-    queryset = Subject.objects.all()
-    serializer_class = SubjectSerializer
+    queryset = Subject_Info_Type.objects.all()
+    serializer_class = Subject_Info_TypeSerializer

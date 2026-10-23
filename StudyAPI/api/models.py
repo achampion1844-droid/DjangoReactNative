@@ -52,9 +52,9 @@ class Assignment(models.Model):
     assignment_description = models.CharField(max_length=60)
     assignment_name = models.CharField(max_length=30)
     date_added = models.DateTimeField(auto_now_add=True)
-    date_started = models.DateField()
+    date_started = models.DateField(auto_now_add=True)
     remaining_study_sessions = models.PositiveIntegerField(default=5)
-    subject = models.ForeignKey(Subject, on_delete=models.PROTECT)
+    subject = models.ForeignKey(Subject, related_name='subjects', on_delete=models.CASCADE)
     icon = models.ImageField(upload_to='assignment_icons/', blank=True)
     is_Completed = models.BooleanField(default=False)
 
@@ -74,7 +74,7 @@ class Subject_Info_Type(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     def __str__(self):
-        return self.subject_name
+        return self.id
 
 
 
