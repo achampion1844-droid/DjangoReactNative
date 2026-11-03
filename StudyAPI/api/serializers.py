@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Article, Subject, Subject_Info_Type, Assignment
+from .models import Article, Subject, Subject_Info_Type, Assignment, PhotoTest
 from django.contrib.auth.models import User
 
 class ArticleSerializer(serializers.ModelSerializer):
@@ -16,11 +16,13 @@ class UserSerializerd(serializers.ModelSerializer):
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subject
-        fields = ['name', 'description', 'created_at', 'id']
+        fields = ['name', 'description', 'created_at', 'user', 'subject_ID']
 
 
 class AssignmentSerializer(serializers.ModelSerializer):
-    # subjects = SubjectSerializer(many=True, read_only=True)
+    # use multiple=True only if it is a many to many relationship
+    subject = SubjectSerializer(read_only=True)
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
     class Meta:
         model = Assignment
         fields = [
@@ -30,13 +32,13 @@ class AssignmentSerializer(serializers.ModelSerializer):
             'assignment_name','date_added', 
             'date_started', 
             'remaining_study_sessions', 
-            'subjects',
             'subject',
             'icon', 
             'is_Completed'
         ]
 
 class Subject_Info_TypeSerializer(serializers.ModelSerializer):
+    subject_name = SubjectSerializer()
     class Meta:
         model = Subject_Info_Type
         fields = [
@@ -44,4 +46,13 @@ class Subject_Info_TypeSerializer(serializers.ModelSerializer):
             'subject_name',
             'num_sub_study_items',
             'id',
+        ]
+
+
+class PhotoTestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PhotoTest
+        fields = [
+            'name',
+            'image',
         ]

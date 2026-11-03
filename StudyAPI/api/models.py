@@ -39,9 +39,11 @@ class Article(models.Model):
 
 
 class Subject(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50, unique=True)
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    subject_ID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     def __str__(self):
         return self.name
@@ -69,12 +71,17 @@ class Assignment(models.Model):
 
 class Subject_Info_Type(models.Model):
     icon = models.ImageField(upload_to='assignment_icons/', blank=True)
-    subject_name = models.ForeignKey(Subject, on_delete=models.PROTECT)
+    subject_name = models.ForeignKey(Subject, related_name='subject', on_delete=models.CASCADE)
     num_sub_study_items = models.PositiveIntegerField()
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    def __str__(self):
-        return self.id
+    # def __str__(self):
+    #     return self.
+
+
+class PhotoTest(models.Model):
+    name = models.CharField(max_length=64)
+    image = models.ImageField(upload_to='PhotoTest/')
 
 
 
