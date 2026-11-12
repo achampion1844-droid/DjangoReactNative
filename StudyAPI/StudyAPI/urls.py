@@ -23,3 +23,9 @@ urlpatterns = [
     path('api/auth/registration/', include('dj_rest_auth.registration.urls')),
     path('api/', include('api.urls')),
 ]
+
+"""
+first of all make sure, that python server is running:python manage.py runserver 0.0.0.0:8000
+open a new terminal in the backend run:ngrok http 8000
+get ngrok url, go to the frontend and replace your env with the ngrok url
+"""

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 import uuid
+from datetime import timedelta
 
 class Article(models.Model):
     title = models.CharField(max_length=200)
@@ -12,41 +13,22 @@ class Article(models.Model):
         return self.title
 
 
-# class date_obj_type(models.Model):
-
-#     MONTHS = [
-#         ('Jan', 'Jan'),
-#         ('Feb', 'Feb'),
-#         ('Mar', 'Mar'),
-#         ('Apr', 'Apr'),
-#         ('May', 'May'),
-#         ('Jun', 'Jun'),
-#         ('Jul', 'Jul'),
-#         ('Aug', 'Aug'),
-#         ('Sep', 'Sep'),
-#         ('Oct', 'Oct'),
-#         ('Nov', 'Nov'),
-#         ('Dec', 'Dec'),
-#     ]
-
-#     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-#     date = models.PositiveIntegerField()
-#     month = models.CharField(max_length=4, choices=MONTHS)
-#     year = models.PositiveIntegerField()
-#     last_day_of_month = models.PositiveIntegerField()
-#     full_date = models.DateField()
-
 
 
 class Subject(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=50)
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     subject_ID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     def __str__(self):
-        return self.name
+        return f"{self.name}-{self.user}"
+
+
+def default_internals():
+    return {0:[False], 1:[False],3:[False],7:[False],14:[False],28:[False],84:[False]}
+
 
 class Assignment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -60,13 +42,20 @@ class Assignment(models.Model):
     icon = models.ImageField(upload_to='assignment_icons/', blank=True)
     is_Completed = models.BooleanField(default=False)
 
+    intervals = models.JSONField(default=default_internals)
+
 
     class Meta:
         ordering = ['-date_added']
         verbose_name = 'Assignment'
         verbose_name_plural = 'Assignments'
+    
     def __str__(self):
         return self.assignment_name
+
+    def date_for(self, days):
+        print(days)
+        return self.date_started + timedelta(days=days)
 
 
 class Subject_Info_Type(models.Model):
